@@ -228,6 +228,6 @@ function deployRedirectProtocol() {
   }, 50);
 
   setTimeout(() => {
-    window.location.href = "login.html";
+    window.location.href = "https://turbo17.github.io/itc101-CTF/login.html";
   }, 4500);
 }
