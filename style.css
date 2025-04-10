@@ -1,0 +1,107 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a0f1c;
+  color: #e6f1ff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #0e1a2b;
+  padding: 2rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #76c7c0;
+}
+
+header p {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #a8c4ce;
+}
+
+main {
+  padding: 2rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.video-card {
+  background-color: #11203a;
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.video-card h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #50fa7b;
+}
+
+.video-card p {
+  color: #c0e0ef;
+}
+
+video, audio {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+footer {
+  background-color: #0e1a2b;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #6e9dbf;
+}
+
+.hint-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1e2e3f;
+  color: #76c7c0;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(80, 250, 123, 0.4);
+}
+
+.hint-bubble:hover::after {
+  content: "Hint";
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  background-color: #1e2e3f;
+  color: #50fa7b;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.hint-panel {
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  background-color: #1e2e3f;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(80, 250, 123, 0.3);
+  width: 250px;
+  z-index: 1000;
+}
