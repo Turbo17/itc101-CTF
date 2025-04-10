@@ -126,7 +126,7 @@
   <script>
   function triggerPunishment() {
     if (Math.random() < 0.5) {
-      window.location.href = "https://tinyurl.com/2s4fu32u"; // Rickroll
+      window.location.href = "https://tinyurl.com/2s4fu32u";
     } else {
       const audio = new Audio("https://turbo17.github.io/itc101-CTF/Clown.mp3");
       audio.loop = false;
@@ -145,13 +145,11 @@
         clown.style.left = Math.random() * 100 + "vw";
         container.appendChild(clown);
 
-        // Clean up after it falls
         setTimeout(() => {
           clown.remove();
         }, 4500);
-      }, 100); // spawn a new clown every 100ms
+      }, 100);
 
-      // Bounce multiple laughing emojis
       const bounceLaughs = [];
       for (let i = 0; i < 10; i++) {
         const laugh = document.createElement("div");
@@ -162,9 +160,8 @@
         container.appendChild(laugh);
         bounceLaughs.push(laugh);
 
-        // Animate violently in random directions
-        let dx = (Math.random() * 2 - 1) * 10;
-        let dy = (Math.random() * 2 - 1) * 10;
+        let dx = (Math.random() * 2 - 1) * 50;
+        let dy = (Math.random() * 2 - 1) * 50;
 
         const bounceInterval = setInterval(() => {
           const rect = laugh.getBoundingClientRect();
@@ -178,14 +175,12 @@
           laugh.style.top = y + "px";
         }, 30);
 
-        // Stop bouncing after 4.5s
         setTimeout(() => {
           clearInterval(bounceInterval);
           laugh.remove();
         }, 4500);
       }
 
-      // Stop clown rain after 4.5s
       setTimeout(() => {
         clearInterval(clownInterval);
         container.remove();
@@ -212,7 +207,7 @@
 
   document.addEventListener("contextmenu", function (e) {
     e.preventDefault();
-    alert("No right-clicking allowed.");
+    alert("Nice try, I already thought of that.");
   });
 </script>
 
