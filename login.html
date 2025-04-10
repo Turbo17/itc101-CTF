@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="https://turbo17.github.io/itc101-CTF/style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #0a0f1c;
+      color: #e6f1ff;
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background-color: #11203a;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 300px;
+      transition: transform 0.1s, box-shadow 0.5s;
+      position: relative;
+    }
+
+    .login-box.shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      15% { transform: translateX(-8px); }
+      30% { transform: translateX(8px); }
+      45% { transform: translateX(-8px); }
+      60% { transform: translateX(8px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .login-box h2 {
+      margin-top: 0;
+      color: #76c7c0;
+      text-align: center;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 6px;
+      background-color: #1a2a40;
+      color: #e6f1ff;
+    }
+
+    .centered-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .login-box button {
+      width: 150px;
+      padding: 0.5rem;
+      background-color: #50fa7b;
+      color: #0a0f1c;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-box button.error {
+      background-color: #ff6b6b !important;
+    }
+
+    .error-message {
+      color: #ff8888;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .error-message.visible {
+      opacity: 1;
+    }
+
+    #attempts {
+      text-align: center;
+      margin-top: 0.5rem;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    .hint-panel h3 {
+      color: #50fa7b;
+      margin-top: 0;
+    }
+
+    .hint-panel p {
+      transition: all 0.3s ease;
+    }
+
+    .hint-panel p:last-child {
+      display: none;
+    }
+
+    .access-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: rgba(0, 255, 100, 0.1);
+      color: #50fa7b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: bold;
+      font-family: monospace;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    .access-overlay.visible {
+      opacity: 1;
+    }
+
+    .hint-bubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #1e2e3f;
+      color: #76c7c0;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      line-height: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(80, 250, 123, 0.4);
+    }
+
+    .hint-bubble:hover::after {
+      content: "Hint";
+      position: absolute;
+      bottom: 50px;
+      right: 0;
+      background-color: #1e2e3f;
+      color: #50fa7b;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .hint-panel {
+      display: none;
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background-color: #1e2e3f;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(80, 250, 123, 0.3);
+      width: 250px;
+      z-index: 1000;
+    }
+
+    #lockoutScreen {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background-color: #1a0000;
+      color: #ff4444;
+      font-family: monospace;
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #lockoutScreen h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    #lockoutCountdown {
+      font-size: 1.2rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container" id="loginContainer">
+    <div class="login-box" id="loginBox">
+      <h2>Login</h2>
+      <form onsubmit="handleLogin(event)">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <div class="centered-button">
+          <button type="submit" id="accessBtn">Access</button>
+        </div>
+        <div id="errorMsg" class="error-message">Access Denied</div>
+        <div id="attempts">Attempts Remaining: 10</div>
+      </form>
+    </div>
+  </div>
+
+  <div class="hint-bubble" onclick="toggleHint()">?</div>
+  <div class="hint-panel" id="hintPanel">
+    <h3>Hint</h3>
+    <p>Check the usual places to cover all your <span style="color: #cc8888;">bases</span>.</p>
+    <p id="finalWarning">One attempt left!!!</p>
+  </div>
+
+  <div id="accessOverlay" class="access-overlay"><span id="accessText"></span></div>
+
+  <div id="lockoutScreen">
+    <h1>ACCESS DENIED</h1>
+    <p>You have been locked out.</p>
+    <p id="lockoutCountdown">You may try again in 60 seconds...</p>
+  </div>
+
+  <script src="https://turbo17.github.io/itc101-CTF/auth.js"></script>
+</body>
+</html>
+
+
+
