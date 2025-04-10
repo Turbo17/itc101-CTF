@@ -115,7 +115,7 @@ function grantAccess() {
     if (i >= message.length) {
       clearInterval(typeInterval);
       setTimeout(() => {
-        window.location.href = "main.html";
+        window.location.href = "https://turbo17.github.io/itc101-CTF/main.html";
       }, 800);
     }
   }, 100);
