@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flag Checker</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #0a0f1c;
+      color: #e6f1ff;
+    }
+
+    .a1 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .b2 {
+      background-color: #11203a;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 300px;
+      text-align: center;
+      transition: box-shadow 0.5s ease;
+    }
+
+    .b2.glow {
+      box-shadow: 0 0 25px 8px #50fa7b;
+    }
+
+    .b2 h2 {
+      color: #76c7c0;
+      margin-bottom: 1rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 6px;
+      background-color: #1a2a40;
+      color: #e6f1ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.5rem;
+      background-color: #50fa7b;
+      color: #0a0f1c;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    #d7 {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    #d7.alpha {
+      color: #50fa7b;
+    }
+
+    #d7.beta {
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+<body>
+  <div class="a1">
+    <div class="b2" id="flagBox">
+      <h2>Flag Checker</h2>
+      <input type="text" id="x3" placeholder="Enter your flag" />
+      <button onclick="pencil()">Check</button>
+      <div id="d7"></div>
+    </div>
+  </div>
+
+  <!-- Confetti script -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const elephant = [
+      125, 84, 67, 69, 74, 79, 82, 80, 95, 70, 84,
+      67, 95, 67, 84, 73, 95, 78, 79, 73, 82, 79,
+      123, 49, 48, 49, 67, 84, 73
+    ];
+
+    const candle = Array.from({ length: elephant.length }, (_, i) => elephant.length - 1 - i);
+
+    function bucket(q, r) {
+      return r.map(i => q[i]).map(x => String.fromCharCode(x)).join('');
+    }
+
+    function pencil() {
+      const car_keys = document.getElementById("x3").value.trim();
+      const fork = document.getElementById("d7");
+      const flagBox = document.getElementById("flagBox");
+      const light = bucket(elephant, candle);
+
+      if (car_keys === light) {
+        fork.textContent = "✔️ Correct Flag!";
+        fork.className = "alpha";
+        flagBox.classList.add("glow");
+
+        const button = document.querySelector("button");
+        const rect = button.getBoundingClientRect();
+
+        confetti({
+          origin: {
+            x: (rect.left + rect.width / 2) / window.innerWidth,
+            y: (rect.top + rect.height / 2) / window.innerHeight
+          },
+          particleCount: 100,
+          spread: 80,
+          startVelocity: 45,
+          scalar: 1
+        });
+
+        setTimeout(() => {
+          flagBox.classList.remove("glow");
+        }, 3000);
+
+      } else {
+        fork.textContent = "❌ Incorrect Flag.";
+        fork.className = "beta";
+      }
+    }
+
+    const drawer = "464c41477b46524f475f46414b455f464c41477d";
+    const mug = [102, 108, 97, 103, 95, 102, 114, 111, 103];
+
+    function shelf(g) {
+      return g.split('').map((c, i) => String.fromCharCode(c.charCodeAt(0) ^ (i % 5))).join('');
+    }
+
+    function rug(b) {
+      return /^#[0-9A-F]{6}$/i.test(b) && b.length === 7;
+    }
+
+    function radio(v) {
+      return v.map(b => (b + 42) % 256).filter((_, i) => i % 2 === 0).reverse();
+    }
+
+    const curtain = v => {
+      let s = "";
+      for (let i = 0; i < v.length; i++) {
+        s += String.fromCharCode(v.charCodeAt(i) + (i % 3));
+      }
+      return s.split("").reverse().join("");
+    };
+
+    const battery = shelf(drawer);
+    const hammer = radio(mug);
+  </script>
+</body>
+</html>
+
+
